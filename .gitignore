@@ -1,0 +1,40 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# Visual Studio Code
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+
+# Test results
+TestResults/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Local development configuration
+appsettings.Development.json
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Certificates
+*.pfx
+*.p12
+
+# OS files
+.DS_Store
+Thumbs.db
