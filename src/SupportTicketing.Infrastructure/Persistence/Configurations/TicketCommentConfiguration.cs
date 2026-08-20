@@ -23,5 +23,10 @@ public class TicketCommentConfiguration : IEntityTypeConfiguration<TicketComment
             .WithMany()
             .HasForeignKey(x => x.AuthorUserId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder.HasIndex(x => new
+        {
+            x.TicketId,
+            x.CreatedAt
+        });
     }
 }

@@ -13,6 +13,6 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.Property(t => t.FullName).IsRequired().HasMaxLength(150);
         builder.Property(t => t.Email).IsRequired().HasMaxLength(256);
         builder.Property(t => t.PasswordHash).IsRequired().HasMaxLength(100);
-
+        builder.HasIndex(t => t.Email).IsUnique();
     }
 }

@@ -14,5 +14,6 @@ public class TicketCategoryConfiguration : IEntityTypeConfiguration<TicketCatego
 		builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
 		builder.Property(x => x.Description).HasMaxLength(500);
 		builder.Property(x => x.IsActive).IsRequired();
+		builder.HasIndex(x => x.Code).IsUnique();
 	}
 }
