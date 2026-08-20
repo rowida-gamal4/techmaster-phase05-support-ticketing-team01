@@ -10,5 +10,6 @@ public class AgentProfile : BaseEntity
     public int? SupportTeamId { get; set; }
     public SupportTeam? SupportTeam { get; set; }
     public ApplicationUser User { get; private set; } = null!;
+    public string FullName { get; set; } = string.Empty;
     public ICollection<TicketAssignment> Assignments { get; set; } = new List<TicketAssignment>();
 }
