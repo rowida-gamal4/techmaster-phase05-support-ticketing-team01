@@ -9,7 +9,7 @@ public class SlaPolicy : BaseEntity
     public int CategoryId { get; set; }
     public TicketPriority Priority { get; set; }
     public int ResponseTimeMin { get; set; }
-    public int ResolutionTimeMax { get; set; }
+    public int ResolutionTimeMin { get; set; }
     public bool IsActive { get; set; }
     public TicketCategory Category { get; set; }
 
