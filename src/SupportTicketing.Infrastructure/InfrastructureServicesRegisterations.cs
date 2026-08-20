@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Domain.Entities;
 using SupportTicketing.Infrastructure.Persistence;
+using SupportTicketing.Infrastructure.Services;
 using SupportTicketing.Services;
 
 namespace SupportTicketing.Infrastructure
@@ -27,7 +28,7 @@ namespace SupportTicketing.Infrastructure
             }).AddRoles<IdentityRole<int>>().AddEntityFrameworkStores<AppDbContext>();
 
 
-            //services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ITokenService, TokenServices>();
             //services.AddScoped<IIdentityService, IdentityService>();
 
