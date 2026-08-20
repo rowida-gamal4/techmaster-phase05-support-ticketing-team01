@@ -30,7 +30,7 @@ namespace SupportTicketing.Infrastructure
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ITokenService, TokenServices>();
-            //services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IIdentityService, IdentityService>();
 
 
             return services;
