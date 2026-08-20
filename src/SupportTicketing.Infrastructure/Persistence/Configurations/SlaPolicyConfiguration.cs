@@ -20,5 +20,10 @@ public class SlaPolicyConfiguration : IEntityTypeConfiguration<SlaPolicy>
             .WithMany(x => x.SlaPolicies)
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
+        builder.HasIndex(x => new
+        {
+            x.CategoryId,
+            x.Priority
+        }).IsUnique();
     }
 }

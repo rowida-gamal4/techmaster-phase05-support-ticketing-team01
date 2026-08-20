@@ -20,5 +20,12 @@ public class ActivityLogConfiguration : IEntityTypeConfiguration<ActivityLog>
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder.HasIndex(x => new
+        {
+            x.EntityName,
+            x.EntityId
+        });
+        builder.HasIndex(x => x.UserId);
+        builder.HasIndex(x => x.CreatedAt);
     }
 }

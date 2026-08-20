@@ -20,5 +20,10 @@ public class TicketStatusHistoryConfiguration : IEntityTypeConfiguration<TicketS
 			.WithMany()
 			.HasForeignKey(x => x.ChangedByUserId)
 			.OnDelete(DeleteBehavior.Restrict);
+		builder.HasIndex(x => new
+		{
+			x.TicketId,
+			x.ChangedAt
+		});
 	}
 }

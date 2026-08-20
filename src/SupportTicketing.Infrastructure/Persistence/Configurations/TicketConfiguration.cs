@@ -16,5 +16,14 @@ public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
 		builder.Property(x => x.Status).IsRequired();
 		builder.HasOne(x => x.Customer).WithMany(x => x.Tickets).HasForeignKey(x => x.CustomerId).OnDelete(DeleteBehavior.Restrict);
 		builder.HasOne(x => x.Category).WithMany(x => x.Tickets).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
+		builder.HasIndex(x => x.CustomerId);
+		builder.HasIndex(x => x.CategoryId);
+		builder.HasIndex(x => new
+		{
+			x.Status,
+			x.Priority
+		});
+		builder.HasIndex(x => x.CreatedAt);
+
 	}
 }

@@ -26,5 +26,13 @@ public class TicketAssignmentConfiguration : IEntityTypeConfiguration<TicketAssi
             .WithMany()
             .HasForeignKey(x => x.AssignedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder.HasIndex(x => x.TicketId);
+        builder.HasIndex(x => x.AgentId);
+        builder.HasIndex(x => new
+        {
+            x.AgentId,
+            x.EndedAt
+        });
+
     }
 }

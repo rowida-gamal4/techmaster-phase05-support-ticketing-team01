@@ -21,6 +21,7 @@ public class TicketAttachmentMetadataConfiguration : IEntityTypeConfiguration<Ti
 			.HasMaxLength(500);
 		builder.HasOne(x=>x.Ticket).WithMany(x=>x.Attachments).HasForeignKey(x=>x.TicketId).OnDelete(DeleteBehavior.Cascade);
 		builder.HasOne(x => x.UploadedByUser).WithMany().HasForeignKey(x => x.UploadedByUser).OnDelete(DeleteBehavior.Restrict);
+		builder.HasIndex(x => x.TicketId);
 
 	}
 }
