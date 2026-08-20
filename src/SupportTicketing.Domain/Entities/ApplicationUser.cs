@@ -1,17 +1,21 @@
+using Microsoft.AspNetCore.Identity;
 using SupportTicketing.Domain.Common;
 using SupportTicketing.Domain.Entities;
 
 namespace SupportTicketing.Domain.Entities;
 
-public class ApplicationUser : BaseEntity
+public class ApplicationUser : IdentityUser<int>
 {
-	public string FullName { get; private set; }
 
-	public string Email { get; private set; }
+    public string FullName { get; set; } = null!;
 
-	public string PasswordHash { get; private set; }
+    public bool IsActive { get; set; } = true;
 
-	public CustomerProfile? CustomerProfile { get; private set; }
+    public DateTime CreatedAt { get; set; }
 
-	public AgentProfile? AgentProfile { get; private set; }
+    public DateTime? UpdatedAt { get; set; }
+    public CustomerProfile? CustomerProfile { get; set; }
+
+    public AgentProfile? AgentProfile { get; set; }
+
 }
