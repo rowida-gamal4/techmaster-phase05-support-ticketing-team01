@@ -1,6 +1,7 @@
 using SupportTicketing.Domain.Common;
 using SupportTicketing.Domain.Entities;
 
+
 namespace SupportTicketing.Domain.Entities;
 
 public class CustomerProfile : BaseEntity
