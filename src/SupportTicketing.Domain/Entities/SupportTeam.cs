@@ -8,4 +8,5 @@ public class SupportTeam : BaseEntity
     public string Name { get; set; }
     public bool IsActive { get; set; }
     public ICollection<TicketAssignment> Assignments { get; set; } = new List<TicketAssignment>();
+    public ICollection<AgentProfile> Agents { get; set; } = new List<AgentProfile>();
 }
