@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Domain.Entities;
 
 namespace SupportTicketing.Infrastructure.Persistence;
 
-public class AppDbContext :IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
+public class AppDbContext :IdentityDbContext<ApplicationUser, IdentityRole<int>, int> , IApplicationDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
