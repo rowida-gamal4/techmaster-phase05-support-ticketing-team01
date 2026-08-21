@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using SupportTicketing.Application.Exceptions;
 
 namespace SupportTicketing.API.Middleware;
@@ -50,6 +51,17 @@ public class ExceptionMiddleware
         {
             _logger.LogWarning(ex, "Invalid request.");
             await WriteErrorResponseAsync(context, HttpStatusCode.BadRequest, "Invalid request.", ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            _logger.LogWarning(ex, "Validation failed.");
+
+            await WriteErrorResponseAsync(
+                context,
+                HttpStatusCode.BadRequest,
+                "Validation failed.",
+                string.Join("; ", ex.Errors.Select(e => e.ErrorMessage))
+            );
         }
         catch (Exception ex)
         {
