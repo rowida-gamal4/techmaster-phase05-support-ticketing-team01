@@ -4,6 +4,7 @@ using SupportTicketing.Infrastructure.Seed;
 using SupportTicketing.Application;
 using System.Text.Json.Serialization;
 using SupportTicketing.Api.Extensions;
+using SupportTicketing.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
