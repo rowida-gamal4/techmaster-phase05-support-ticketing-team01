@@ -1,4 +1,4 @@
-﻿namespace SupportTicketing.API.Exceptions;
+﻿namespace SupportTicketing.Application.Exceptions;
 
 public class NotFoundException : Exception
 {

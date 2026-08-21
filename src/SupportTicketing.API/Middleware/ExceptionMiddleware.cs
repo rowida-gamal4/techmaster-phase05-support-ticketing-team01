@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using SupportTicketing.API.Exceptions;
+using SupportTicketing.Application.Exceptions;
 
 namespace SupportTicketing.API.Middleware;
 
