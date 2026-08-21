@@ -1,18 +1,21 @@
 using System.Net;
 using System.Text.Json;
+using SupportTicketing.API.Exceptions;
 
 namespace SupportTicketing.API.Middleware;
 
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddlware> _Logger;
-    public ExceptionMiddleware(RequestDelegate next,Ilogger<ExceptionMiddleware> logger)
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        _Logger= logger;
-        _next= next;
+        _next = next;
+        _logger = logger;
     }
-    public async Task Invoke(HttpContext context)
+
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
@@ -20,45 +23,48 @@ public class ExceptionMiddleware
         }
         catch (NotFoundException ex)
         {
-            logger.LogWarning(ex,"Resource not found");
-            await WriteErrorResponse(context, HttpStatusCode.NotFound, "Resource not found", ex.Message);
+            _logger.LogWarning(ex, "Resource not found.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.NotFound, "Resource not found.", ex.Message);
         }
         catch (KeyNotFoundException ex)
         {
-            _Logger.LogWarning(ex, "Resource not found");
-            await WriteErrorResponse(context, HttpStatusCode.NotFound, "Resource not found", ex.Message);
-        }catch(ArgumentException ex)
-        {
-            _Logger.LogWarning(ex, "Invalid request");
-            await WriteErrorResponse(context, HttpStatusCode.BadRequest, "Invalid request", ex.Message);
-        }catch(UnauthorizedAccessException ex)
-        {
-            _Logger.LogWarning(ex, "Unauthorized request");
-            await WriteErrorResponse(context, HttpStatusCode.Unauthorized, "Unauthorized", ex.Message);
+            _logger.LogWarning(ex, "Resource not found.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.NotFound, "Resource not found.", ex.Message);
         }
         catch (ForbiddenException ex)
         {
-            logger.LogWarning(ex, "Forbidden request",);
-            await WriteErrorResponse(context, HttpStatusCode.Forbidden, "Access denied", ex.Message);
+            _logger.LogWarning(ex, "Forbidden request.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.Forbidden, "Access denied.", ex.Message);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            _logger.LogWarning(ex, "Unauthorized request.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.Unauthorized, "Unauthorized.", ex.Message);
         }
         catch (BusinessRuleException ex)
         {
-            logger.LogWarning(ex,"Buissness rule voilation ");
-            await WriteErrorResponse(context, HttpStatusCode.BadRequest, "Invalid request", ex.Message);
+            _logger.LogWarning(ex, "Business rule violation.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.BadRequest, "Business rule violation.", ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogWarning(ex, "Invalid request.");
+            await WriteErrorResponseAsync(context, HttpStatusCode.BadRequest, "Invalid request.", ex.Message);
         }
         catch (Exception ex)
         {
-            _Logger.LogWarning(ex, "Unhandled exception");
-            await WriteErrorResponse(context, HttpStatusCode.InternalServerError, "An unexpected error occurred", null);
+            _logger.LogError(ex, "Unhandled exception."); 
+            await WriteErrorResponseAsync(context, HttpStatusCode.InternalServerError, "An unexpected error occurred.", null);
         }
-        
     }
-    private static async Task WriteErrorResponse(HttpContext context,HttpStatusCode statusCode,string message,string? details)
+
+    private static async Task WriteErrorResponseAsync(HttpContext context, HttpStatusCode statusCode, string message, string? details)
     {
         if (context.Response.HasStarted)
         {
             return;
         }
+
         context.Response.StatusCode = (int)statusCode;
         context.Response.ContentType = "application/json";
 
@@ -70,6 +76,7 @@ public class ExceptionMiddleware
             details,
             traceId = context.TraceIdentifier
         };
+
         await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }

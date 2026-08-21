@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SupportTicketing.Services;
 
 
-namespace SupportTicketing.Api.Extensions
+namespace SupportTicketing.API.Extensions
 {
     public static class AuthenticationExtensions
     {
