@@ -9,7 +9,7 @@ using SupportTicketing.Domain.Enums;
 namespace SupportTicketing.API.Controllers;
 
 [ApiController]
-[Route("api/tickets")]
+[Route("api/[controller]")]
 [Authorize(Roles = Roles.Customer)]
 public class CustomersController : ControllerBase
 {
