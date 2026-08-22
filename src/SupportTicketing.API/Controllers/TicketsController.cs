@@ -11,6 +11,8 @@ using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
 using SupportTicketing.Application.Features.Tickets.Commands.StartTicket;
 using SupportTicketing.Application.Features.Sla.Queries.GetApproachingSlaTickets;
+using SupportTicketing.Application.DTOs.Tickets;
+using SupportTicketing.Application.Features.Tickets.Commands.UpdateTicketStatus;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -81,5 +83,14 @@ public class TicketsController : ControllerBase
         var query = new GetApproachingSlaTicketsQuery();
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
-}
+    }
+    
+    [HttpPatch("{id}/status")]
+    [Authorize(Roles = Roles.Customer + "," + Roles.SupportLead)]
+    public async Task<IActionResult> UpdateStatus(int id,[FromBody] UpdateTicketStatusRequestDto request,CancellationToken cancellationToken)
+    {
+        var command = new UpdateTicketStatusCommand(id, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
 }
