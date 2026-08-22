@@ -5,6 +5,7 @@ using SupportTicketing.Application;
 using System.Text.Json.Serialization;
 using SupportTicketing.API.Extensions;
 using SupportTicketing.API.Middleware;
+using SupportTicketing.Infrastructure.Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,8 +69,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
-
     await IdentitySeeder.SeedRolesAsync(roleManager);
+
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DataSeeder.SeedAsync(context);
 }
 
 

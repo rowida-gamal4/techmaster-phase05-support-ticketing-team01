@@ -63,6 +63,7 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.CreateTicket
                 Status = TicketStatus.New,
                 Priority = TicketPriority.Low
             };
+            ticket.SetCreatedAt();
             dbContext.Tickets.Add(ticket);
             await dbContext.SaveChangesAsync(cancellationToken);
 

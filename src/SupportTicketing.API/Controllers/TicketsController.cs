@@ -10,6 +10,7 @@ using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
 using SupportTicketing.Application.Features.Tickets.Commands.StartTicket;
+using SupportTicketing.Application.Features.Sla.Queries.GetApproachingSlaTickets;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -72,4 +73,13 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
+
+    [HttpGet("sla/approaching")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetApproachingSlaTickets(CancellationToken cancellationToken)
+    {
+        var query = new GetApproachingSlaTicketsQuery();
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+}
 }
