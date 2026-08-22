@@ -10,9 +10,10 @@ using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
 using SupportTicketing.Application.Features.Tickets.Commands.StartTicket;
+using SupportTicketing.Application.Features.Tickets.Commands.ResolveTicket;
 using SupportTicketing.Application.Features.Sla.Queries.GetApproachingSlaTickets;
 using SupportTicketing.Application.DTOs.Tickets;
-using SupportTicketing.Application.Features.Tickets.Commands.UpdateTicketStatus;
+using SupportTicketing.Application.Features.Tickets.Commands.ChangeTicketStatus;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -75,7 +76,14 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
-
+    [HttpPut("{ticketId}/resolve")]
+    [Authorize(Roles = Roles.SupportAgent)]
+    public async Task<IActionResult> ResolveTicket(int ticketId, ResolveTicketRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new ResolveTicketCommand(ticketId,request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
     [HttpGet("sla/approaching")]
     [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
     public async Task<IActionResult> GetApproachingSlaTickets(CancellationToken cancellationToken)

@@ -14,6 +14,7 @@ public class Ticket : BaseEntity
     public TicketPriority Priority { get; set; }
     public DateTime? StartedAt { get; set; }
     public DateTime? ResolvedAt { get; set; }
+    public string? ResolutionNotes { get; set; }
     public DateTime? ClosedAt { get; set; }
     public DateTime? CancelledAt { get; set; }
     public string? CancellationReason { get; set; }
