@@ -12,7 +12,7 @@ public static class DependencyInjection
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("Conn"));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
         services.AddScoped<IApplicationDbContext>(provider =>  provider.GetRequiredService<AppDbContext>());
 
