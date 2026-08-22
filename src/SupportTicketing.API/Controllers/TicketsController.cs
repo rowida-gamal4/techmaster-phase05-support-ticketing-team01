@@ -6,7 +6,7 @@ using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Commands.AssignTicket;
 using SupportTicketing.Application.DTOs.TicketAssignment;
 using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
-
+using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -43,6 +43,14 @@ public class TicketsController : ControllerBase
     {
         var command = new ReassignTicketCommand(ticketId, request);
         var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    [HttpGet("my-queue")]
+    [Authorize(Roles = Roles.SupportAgent)]
+    public async Task<IActionResult> GetMyQueue([FromQuery] int pageNumber=1, [FromQuery] int pageSize = 10,CancellationToken cancellationToken=default)
+    {
+        var query = new GetMyAgentQueueQuery(pageNumber, pageSize);
+        var result = await mediator.Send(query,cancellationToken);
         return Ok(result);
     }
 }
