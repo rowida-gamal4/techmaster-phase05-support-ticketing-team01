@@ -9,6 +9,7 @@ using SupportTicketing.Application.DTOs.TicketTriage;
 using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
+using SupportTicketing.Application.Features.Tickets.Commands.StartTicket;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -25,7 +26,7 @@ public class TicketsController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = Roles.Customer)]
-    public async Task<IActionResult> CreateTicket( CreateTicketCommand command,
+    public async Task<IActionResult> CreateTicket(CreateTicketCommand command,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
@@ -36,12 +37,12 @@ public class TicketsController : ControllerBase
     public async Task<IActionResult> AssignTicket(int ticketId, AssignTicketRequestDto request, CancellationToken cancellationToken)
     {
         var command = new AssignTicketCommand(ticketId, request);
-        var result = await mediator.Send(command,cancellationToken);
+        var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
     [HttpPost("{ticketId}/reassign")]
     [Authorize(Roles = Roles.SupportLead)]
-    public async Task<IActionResult> ReassignTicket(int ticketId,ReassignTicketRequestDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> ReassignTicket(int ticketId, ReassignTicketRequestDto request, CancellationToken cancellationToken)
     {
         var command = new ReassignTicketCommand(ticketId, request);
         var result = await mediator.Send(command, cancellationToken);
@@ -49,17 +50,25 @@ public class TicketsController : ControllerBase
     }
     [HttpGet("my-queue")]
     [Authorize(Roles = Roles.SupportAgent)]
-    public async Task<IActionResult> GetMyQueue([FromQuery] int pageNumber=1, [FromQuery] int pageSize = 10,CancellationToken cancellationToken=default)
+    public async Task<IActionResult> GetMyQueue([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
     {
         var query = new GetMyAgentQueueQuery(pageNumber, pageSize);
-        var result = await mediator.Send(query,cancellationToken);
+        var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
     [HttpPatch("{ticketId}/priority")]
-    [Authorize(Roles = Roles.Admin + "," +  Roles.SupportLead)]
-    public async Task<IActionResult> SetPriority(int ticketId,SetPriorityRequestDto request, CancellationToken cancellationToken)
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> SetPriority(int ticketId, SetPriorityRequestDto request, CancellationToken cancellationToken)
     {
         var command = new SetPriorityCommand(ticketId, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    [HttpPut("{ticketId}/start")]
+    [Authorize(Roles = Roles.SupportAgent)]
+    public async Task<IActionResult> StartTicket(int ticketId,CancellationToken cancellationToken)
+    {
+        var command = new StartTicketCommand(ticketId);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
