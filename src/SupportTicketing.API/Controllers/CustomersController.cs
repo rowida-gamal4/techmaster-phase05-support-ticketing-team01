@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SupportTicketing.Application.DTOs.Customer;
 using SupportTicketing.Application.DTOs.Tickets;
+using SupportTicketing.Application.Features.Comments.Commands.AddCustomerComment;
 using SupportTicketing.Application.Features.Tickets.Commands.CancelTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyCustomerTickets;
 using SupportTicketing.Domain.Enums;
@@ -40,4 +42,15 @@ public class CustomersController : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpPost("add-comment/ticket/{ticketId}")]
+    public async Task<IActionResult> AddComment(int ticketId,AddCommentRequestDto request,CancellationToken cancellationToken)
+    {
+        var command = new AddCustomerCommentCommand( ticketId,request);
+
+        var result = await mediator.Send(command,cancellationToken);
+
+        return Ok(result);
+    }
 }
+
