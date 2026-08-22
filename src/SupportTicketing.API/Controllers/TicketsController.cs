@@ -14,6 +14,8 @@ using SupportTicketing.Application.Features.Tickets.Commands.ResolveTicket;
 using SupportTicketing.Application.Features.Sla.Queries.GetApproachingSlaTickets;
 using SupportTicketing.Application.DTOs.Tickets;
 using SupportTicketing.Application.Features.Tickets.Commands.ChangeTicketStatus;
+using SupportTicketing.Application.Features.Comments.Commands.AddInternalNote;
+using SupportTicketing.Application.DTOs.TicketComment;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -98,6 +100,14 @@ public class TicketsController : ControllerBase
     public async Task<IActionResult> UpdateStatus(int id,[FromBody] UpdateTicketStatusRequestDto request,CancellationToken cancellationToken)
     {
         var command = new UpdateTicketStatusCommand(id, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    [HttpPost("{ticketId}/internal-notes")]
+    [Authorize(Roles = Roles.SupportAgent + "," + Roles.SupportLead)]
+    public async Task<IActionResult> AddInternalNote(int ticketId, AddInternalNoteRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new AddInternalNoteCommand(ticketId, request);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
