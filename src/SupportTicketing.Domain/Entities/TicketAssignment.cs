@@ -9,7 +9,6 @@ public class TicketAssignment : BaseEntity
     public int TicketId { get; set; }
     public int AgentId {  get; set; }
     public int TeamId { get; set; }
-    public int AssignmentId { get; set; }
     public DateTime AssignedAt { get; set; }
     public DateTime? EndedAt { get; set; }
     public bool IsActive { get; set; }
