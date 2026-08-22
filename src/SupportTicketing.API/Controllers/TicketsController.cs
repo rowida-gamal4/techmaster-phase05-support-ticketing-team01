@@ -5,6 +5,7 @@ using SupportTicketing.Application.Features.Tickets.Commands.CreateTicket;
 using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Commands.AssignTicket;
 using SupportTicketing.Application.DTOs.TicketAssignment;
+using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
 
 
 namespace SupportTicketing.API.Controllers;
@@ -36,5 +37,12 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command,cancellationToken);
         return Ok(result);
     }
-
+    [HttpPost("{ticketId}/reassign")]
+    [Authorize(Roles = Roles.SupportLead)]
+    public async Task<IActionResult> ReassignTicket(int ticketId,ReassignTicketRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new ReassignTicketCommand(ticketId, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
 }
