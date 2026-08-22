@@ -5,8 +5,10 @@ using SupportTicketing.Application.Features.Tickets.Commands.CreateTicket;
 using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Commands.AssignTicket;
 using SupportTicketing.Application.DTOs.TicketAssignment;
+using SupportTicketing.Application.DTOs.TicketTriage;
 using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
+using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -51,6 +53,14 @@ public class TicketsController : ControllerBase
     {
         var query = new GetMyAgentQueueQuery(pageNumber, pageSize);
         var result = await mediator.Send(query,cancellationToken);
+        return Ok(result);
+    }
+    [HttpPatch("{ticketId}/priority")]
+    [Authorize(Roles = Roles.Admin + "," +  Roles.SupportLead)]
+    public async Task<IActionResult> SetPriority(int ticketId,SetPriorityRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new SetPriorityCommand(ticketId, request);
+        var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
 }
