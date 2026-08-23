@@ -11,6 +11,7 @@ using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicket;
 using SupportTicketing.Application.Features.Comments.Queries.GetMyTicketConversation;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicketStatusHistory;
+using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicketHistory;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -76,6 +77,18 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> GetMyTicketStatusHistoy(int ticketId,CancellationToken cancellationToken)
     {
         var query = new GetMyTicketStatusHistoryQuery(ticketId);
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+    [HttpGet("my-history")]
+    [Authorize(Roles = Roles.Customer)]
+    public async Task<IActionResult> GetMyTicketHistory([FromQuery] int pageNumber = 1,
+    [FromQuery] int pageSize = 10,
+    [FromQuery] string? status = null,
+    [FromQuery] string? search = null,
+    CancellationToken cancellationToken = default)
+    {
+        var query = new GetMyTicketHistoryQuery(pageNumber, pageSize, status, search);
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
