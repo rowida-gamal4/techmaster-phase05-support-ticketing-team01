@@ -8,6 +8,8 @@ using SupportTicketing.Application.Features.Comments.Commands.AddCustomerComment
 using SupportTicketing.Application.Features.Tickets.Commands.CancelTicket;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyCustomerTickets;
 using SupportTicketing.Domain.Enums;
+using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicket;
+
 
 namespace SupportTicketing.API.Controllers;
 
@@ -50,6 +52,14 @@ public class CustomersController : ControllerBase
 
         var result = await mediator.Send(command,cancellationToken);
 
+        return Ok(result);
+    }
+    [HttpGet("{ticketId}")]
+    [Authorize(Roles = Roles.Customer)]
+    public async Task<IActionResult> GetMyTicket(int ticketId, CancellationToken cancellationToken)
+    {
+        var query = new GetMyTicketQuery(ticketId);
+        var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 }

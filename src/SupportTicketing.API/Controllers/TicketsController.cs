@@ -111,4 +111,5 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
+    
 }
