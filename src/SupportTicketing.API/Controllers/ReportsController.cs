@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SupportTicketing.Application.DTOs.Reports;
+using SupportTicketing.Application.Features.Reports.GetAuditLog;
 using SupportTicketing.Application.Features.Reports.GetResolutionTimeReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetAgentWorkloadReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
@@ -43,6 +44,15 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> GetResolutionTimeReport( CancellationToken cancellationToken)
     {
         var query = new GetResolutionTimeReportQuery();
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("audit")]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> GetAuditLog([FromQuery] GetAuditLogRequestDto request,CancellationToken cancellationToken)
+    {
+        var query = new GetAuditLogQuery(request);
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
