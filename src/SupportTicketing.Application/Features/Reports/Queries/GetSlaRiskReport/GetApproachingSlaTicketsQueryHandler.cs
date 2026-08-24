@@ -4,10 +4,10 @@ using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Application.DTOs.Sla;
 using SupportTicketing.Application.DTOs.Tickets;
 using SupportTicketing.Application.Exceptions;
-using SupportTicketing.Application.Features.Sla.Queries.GetApproachingSlaTickets;
+using SupportTicketing.Application.Features.Sla.Queries.GetSlaRiskReport;
 using SupportTicketing.Domain.Enums;
 
-namespace SupportTicketing.Application.Features.Tickets.Queries.GetApproachingSlaTickets;
+namespace SupportTicketing.Application.Features.Tickets.Queries.GetSlaRiskReport;
 
 public class GetApproachingSlaTicketsQueryHandler : IRequestHandler<GetApproachingSlaTicketsQuery, GetApproachingSlaTicketsResult>
 {
@@ -28,6 +28,11 @@ public class GetApproachingSlaTicketsQueryHandler : IRequestHandler<GetApproachi
             throw new UnauthorizedAccessException("Authentication is required.");
         }
 
+        if (currentUserService.Role != Roles.Admin && currentUserService.Role != Roles.SupportLead)
+        {
+            throw new ForbiddenException("Only Admin or SupportLead can view SLA risk tickets.");
+        }
+
         var now = DateTime.UtcNow;
         var threshold = now.AddHours(48);
         var result = new List<SlaTicketResponseDto>();
@@ -42,7 +47,7 @@ public class GetApproachingSlaTicketsQueryHandler : IRequestHandler<GetApproachi
 
             if (policy is null)
             {
-                throw new BusinessRuleException( "No active SLA policy exists for this category and priority.");
+                throw new BusinessRuleException("No active SLA policy exists for this category and priority.");
             }
 
             var targetTime = ticket.CreatedAt.AddMinutes(policy.ResolutionTimeMin);
