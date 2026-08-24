@@ -5,6 +5,7 @@ using SupportTicketing.Application.DTOs.Reports;
 using SupportTicketing.Application.Features.Reports.GetAuditLog;
 using SupportTicketing.Application.Features.Reports.GetResolutionTimeReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetAgentWorkloadReport;
+using SupportTicketing.Application.Features.Reports.Queries.GetTicketCategoryDistribution;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
 using SupportTicketing.Domain.Enums;
 
@@ -23,7 +24,7 @@ public class ReportsController : ControllerBase
 
     [HttpGet("agent-workload")]
     [Authorize(Roles = Roles.SupportLead)]
-    public async Task<IActionResult> GetAgentWorkload( CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAgentWorkload(CancellationToken cancellationToken)
     {
         var query = new GetAgentWorkloadQuery();
         var result = await mediator.Send(query, cancellationToken);
@@ -32,7 +33,7 @@ public class ReportsController : ControllerBase
 
     [HttpGet("tickets/status-priority")]
     [Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> GetTicketsByStatus( [FromQuery] GetTicketsByStatusRequestDto request,
+    public async Task<IActionResult> GetTicketsByStatus([FromQuery] GetTicketsByStatusRequestDto request,
         CancellationToken cancellationToken)
     {
         var query = new GetTicketsByStatusQuery(request);
@@ -41,7 +42,7 @@ public class ReportsController : ControllerBase
     }
     [HttpGet("resolution-time")]
     [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
-    public async Task<IActionResult> GetResolutionTimeReport( CancellationToken cancellationToken)
+    public async Task<IActionResult> GetResolutionTimeReport(CancellationToken cancellationToken)
     {
         var query = new GetResolutionTimeReportQuery();
         var result = await mediator.Send(query, cancellationToken);
@@ -50,10 +51,18 @@ public class ReportsController : ControllerBase
 
     [HttpGet("audit")]
     [Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> GetAuditLog([FromQuery] GetAuditLogRequestDto request,CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAuditLog([FromQuery] GetAuditLogRequestDto request, CancellationToken cancellationToken)
     {
         var query = new GetAuditLogQuery(request);
         var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("ticket-category-distribution")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetTicketCategoryDistribution(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetTicketCategoryDistributionQuery(), cancellationToken);
         return Ok(result);
     }
 }
