@@ -15,6 +15,7 @@ using SupportTicketing.Application.DTOs.Tickets;
 using SupportTicketing.Application.Features.Tickets.Commands.ChangeTicketStatus;
 using SupportTicketing.Application.Features.Comments.Commands.AddInternalNote;
 using SupportTicketing.Application.DTOs.TicketComment;
+using SupportTicketing.Application.Features.Tickets.Commands.AddTicketAttachmentMetadata;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -71,7 +72,7 @@ public class TicketsController : ControllerBase
     }
     [HttpPut("{ticketId}/start")]
     [Authorize(Roles = Roles.SupportAgent)]
-    public async Task<IActionResult> StartTicket(int ticketId,CancellationToken cancellationToken)
+    public async Task<IActionResult> StartTicket(int ticketId, CancellationToken cancellationToken)
     {
         var command = new StartTicketCommand(ticketId);
         var result = await mediator.Send(command, cancellationToken);
@@ -81,15 +82,15 @@ public class TicketsController : ControllerBase
     [Authorize(Roles = Roles.SupportAgent)]
     public async Task<IActionResult> ResolveTicket(int ticketId, ResolveTicketRequestDto request, CancellationToken cancellationToken)
     {
-        var command = new ResolveTicketCommand(ticketId,request);
+        var command = new ResolveTicketCommand(ticketId, request);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
-   
-    
+
+
     [HttpPatch("{id}/status")]
     [Authorize(Roles = Roles.Customer + "," + Roles.SupportLead)]
-    public async Task<IActionResult> UpdateStatus(int id,[FromBody] UpdateTicketStatusRequestDto request,CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateTicketStatusRequestDto request, CancellationToken cancellationToken)
     {
         var command = new UpdateTicketStatusCommand(id, request);
         var result = await mediator.Send(command, cancellationToken);
@@ -103,5 +104,14 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
-    
+
+    [Authorize]
+    [HttpPost("{ticketId}/attachments")]
+    public async Task<IActionResult> AddAttachmentMetadata(int ticketId, [FromBody] AddTicketAttachmentMetadataRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new AddTicketAttachmentMetadataCommand(ticketId, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
 }
