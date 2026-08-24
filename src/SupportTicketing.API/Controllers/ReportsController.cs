@@ -10,6 +10,8 @@ using SupportTicketing.Application.Features.Reports.Queries.GetTicketCategoryDis
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
 using SupportTicketing.Application.Features.Sla.Queries.GetSlaRiskReport;
 using SupportTicketing.Domain.Enums;
+using SupportTicketing.Application.Features.Tickets.Queries.GetUnassignedTickets;
+
 
 namespace SupportTicketing.API.Controllers;
 
@@ -69,6 +71,7 @@ public class ReportsController : ControllerBase
     }
 
     [HttpGet("high-priority-open-tickets")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
     public async Task<IActionResult> GetHighPriorityOpenTickets([FromQuery] HighPriorityTicketRequestDTo request, CancellationToken cancellationToken)
     {
         var query = new GetHighPriorityOpenTicketsQuery { Request = request };
@@ -80,6 +83,16 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> GetApproachingSlaTickets(CancellationToken cancellationToken)
     {
         var query = new GetApproachingSlaTicketsQuery();
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+    [HttpGet("unassigned")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetUnassignedTickets(
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] string? status = null,
+        [FromQuery] string? priority = null, [FromQuery] string sortBy = "priority", CancellationToken cancellationToken = default)
+    {
+        var query = new GetUnassignedTicketsQuery(pageNumber, pageSize, status, priority, sortBy);
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
