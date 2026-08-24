@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SupportTicketing.Application.DTOs.Customer;
+using SupportTicketing.Application.Features.Agent.Queries.GetMyTeamQueue;
 using SupportTicketing.Application.Features.Comments.Commands.AddAgentPublicReply;
 using SupportTicketing.Domain.Enums;
 
@@ -24,6 +25,14 @@ namespace SupportTicketing.API.Controllers
         {
             var command = new AddAgentPublicReplyCommand(ticketId, request);
             var result = await mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("my-team/queue")]
+        [Authorize(Roles = Roles.SupportLead)]
+        public async Task<IActionResult> GetMyTeamQueue(CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(new GetMyTeamQueueQuery(), cancellationToken);
             return Ok(result);
         }
     }
