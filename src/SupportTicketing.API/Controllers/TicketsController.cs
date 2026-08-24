@@ -16,6 +16,7 @@ using SupportTicketing.Application.Features.Tickets.Commands.ChangeTicketStatus;
 using SupportTicketing.Application.Features.Comments.Commands.AddInternalNote;
 using SupportTicketing.Application.DTOs.TicketComment;
 using SupportTicketing.Application.Features.Tickets.Commands.AddTicketAttachmentMetadata;
+using SupportTicketing.Application.Features.Tickets.Queries.GetTicketAttachments;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -110,6 +111,15 @@ public class TicketsController : ControllerBase
     public async Task<IActionResult> AddAttachmentMetadata(int ticketId, [FromBody] AddTicketAttachmentMetadataRequestDto request, CancellationToken cancellationToken)
     {
         var command = new AddTicketAttachmentMetadataCommand(ticketId, request);
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("attachments")]
+    public async Task<IActionResult> GetAttachments([FromQuery] GetAttachmentRequestDto request, CancellationToken cancellationToken)
+    {
+        var command = new GetTicketAttachmentsQuery(request);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
