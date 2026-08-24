@@ -5,6 +5,7 @@ using SupportTicketing.Application.DTOs.Reports;
 using SupportTicketing.Application.Features.Reports.GetAuditLog;
 using SupportTicketing.Application.Features.Reports.GetResolutionTimeReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetAgentWorkloadReport;
+using SupportTicketing.Application.Features.Reports.Queries.GetHighPriorityOpenTickets;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketCategoryDistribution;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
 using SupportTicketing.Domain.Enums;
@@ -63,6 +64,14 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> GetTicketCategoryDistribution(CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetTicketCategoryDistributionQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("high-priority-open-tickets")]
+    public async Task<IActionResult> GetHighPriorityOpenTickets([FromQuery] HighPriorityTicketRequestDTo request, CancellationToken cancellationToken)
+    {
+        var query = new GetHighPriorityOpenTicketsQuery { Request = request };
+        var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 }
