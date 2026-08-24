@@ -12,6 +12,7 @@ using SupportTicketing.Application.Features.Sla.Queries.GetSlaRiskReport;
 using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Queries.GetUnassignedTickets;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketLifecycleMetrics;
+using SupportTicketing.Application.Features.Reports.Queries.GetTopCustomersByTicketCount;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -103,5 +104,12 @@ public class ReportsController : ControllerBase
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
-
+    [HttpGet("top-customers")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetTopCustomers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
+    {
+        var query = new GetTopCustomersByTicketCountQuery(pageNumber, pageSize);
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
 }
