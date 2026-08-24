@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SupportTicketing.Application.DTOs.Reports;
 using SupportTicketing.Application.Features.Reports.Queries.GetAgentWorkloadReport;
+using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
 using SupportTicketing.Domain.Enums;
 
 namespace SupportTicketing.API.Controllers;
@@ -22,6 +24,16 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> GetAgentWorkload( CancellationToken cancellationToken)
     {
         var query = new GetAgentWorkloadQuery();
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("tickets/status-priority")]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> GetTicketsByStatus( [FromQuery] GetTicketsByStatusRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetTicketsByStatusQuery(request);
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
