@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SupportTicketing.Application.DTOs.Reports;
+using SupportTicketing.Application.Features.Reports.GetResolutionTimeReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetAgentWorkloadReport;
 using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusReport;
 using SupportTicketing.Domain.Enums;
@@ -34,6 +35,14 @@ public class ReportsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var query = new GetTicketsByStatusQuery(request);
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+    [HttpGet("resolution-time")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetResolutionTimeReport( CancellationToken cancellationToken)
+    {
+        var query = new GetResolutionTimeReportQuery();
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
