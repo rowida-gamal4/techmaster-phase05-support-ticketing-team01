@@ -36,7 +36,7 @@ public class GetMyTicketStatusHistoryQueryHandler
 		}
 
 		var currentUserId = currentUserService.UserId.Value;
-
+		
 		var ownsTicket = await dbContext.Tickets.AsNoTracking()
 			.AnyAsync(t => t.Id == request.TicketId && t.Customer.UserId == currentUserId, cancellationToken);
 
