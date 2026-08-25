@@ -12,6 +12,7 @@ using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicket;
 using SupportTicketing.Application.Features.Comments.Queries.GetMyTicketConversation;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicketStatusHistory;
 using SupportTicketing.Application.Features.Tickets.Queries.GetMyTicketHistory;
+using SupportTicketing.Application.Features.Customer.Queries.GetAvailableCategories;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -92,5 +93,13 @@ public class CustomersController : ControllerBase
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
+    [HttpGet("available-categories")]
+    [Authorize(Roles = Roles.Customer)]
+    public async Task<IActionResult> GetAvailableCategories(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetAvailableCategoriesQuery(), cancellationToken);
+        return Ok(result);
+    }
+
 }
 
