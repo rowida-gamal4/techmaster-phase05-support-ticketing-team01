@@ -73,6 +73,16 @@ public class ResolveTicketCommandHandler : IRequestHandler<ResolveTicketCommand,
         ticket.ResolutionNotes = request.Request.ResolutionNotes.Trim();
         ticket.ResolvedAt = DateTime.UtcNow;
 
+        var activityLog = new ActivityLog
+        {
+            UserId = currentUserId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = "Ticket resolved"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
+
         var statusHistory = new TicketStatusHistory
         {
             TicketId = ticket.Id,

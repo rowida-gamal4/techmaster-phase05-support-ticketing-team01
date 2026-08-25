@@ -132,6 +132,16 @@ public class UpdateTicketStatusCommandHandler : IRequestHandler<UpdateTicketStat
 
         await dbContext.TicketStatusHistories.AddAsync(history);
 
+        var activityLog = new ActivityLog
+        {
+            UserId = userId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = $"Status changed from {oldStatus} to {ticket.Status}"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new UpdateTicketStatusResult

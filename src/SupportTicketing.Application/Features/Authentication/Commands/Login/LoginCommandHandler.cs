@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.Logging;
 using SupportTicketing.Application.Common;
 using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Application.Common.Models;
@@ -10,20 +11,23 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, GeneralResponse
 {
     private readonly IIdentityService identityService;
     private readonly ITokenService tokenService;
+    private readonly ILogger<LoginCommandHandler> logger;
 
-    public LoginCommandHandler( IIdentityService identityService,ITokenService tokenService)
+    public LoginCommandHandler(IIdentityService identityService, ITokenService tokenService, ILogger<LoginCommandHandler> logger)
     {
         this.identityService = identityService;
         this.tokenService = tokenService;
+        this.logger = logger;
     }
 
-    public async Task<GeneralResponseDto<AuthResponseDto>> Handle( LoginCommand request,CancellationToken cancellationToken)
+    public async Task<GeneralResponseDto<AuthResponseDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await identityService.ValidateCredentialsAsync( request.Request.Email,request.Request.Password,cancellationToken);
+        var user = await identityService.ValidateCredentialsAsync(request.Request.Email, request.Request.Password, cancellationToken);
 
         if (user is null)
         {
-           return new GeneralResponseDto<AuthResponseDto>
+            logger.LogWarning("Failed login attempt for email {Email}", request.Request.Email);
+            return new GeneralResponseDto<AuthResponseDto>
             {
                 Success = false,
                 Message = "Invalid email or password.",
@@ -35,7 +39,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, GeneralResponse
             };
         }
 
-        var token = tokenService.GenerateToken(user.UserId,user.Email,user.FullName, user.Role);
+        var token = tokenService.GenerateToken(user.UserId, user.Email, user.FullName, user.Role);
+
+        logger.LogInformation("User {UserId} logged in successfully with role {Role}", user.UserId, user.Role);
 
         return new GeneralResponseDto<AuthResponseDto>
         {

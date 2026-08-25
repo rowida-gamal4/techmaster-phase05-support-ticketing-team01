@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Application.Exceptions;
+using SupportTicketing.Domain.Entities;
 using SupportTicketing.Domain.Enums;
 
 namespace SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
@@ -52,6 +53,16 @@ public class SetPriorityCommandHandler : IRequestHandler<SetPriorityCommand, Set
         var oldPriority = ticket.Priority;
 
         ticket.Priority = (TicketPriority)request.Request.Priority;
+
+        var activityLog = new ActivityLog
+        {
+            UserId = currentUserId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = $"Priority changed from {oldPriority} to {ticket.Priority}"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

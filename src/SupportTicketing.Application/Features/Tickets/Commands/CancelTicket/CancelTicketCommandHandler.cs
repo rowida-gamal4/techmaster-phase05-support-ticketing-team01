@@ -15,7 +15,7 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.CancelTicket
         private readonly IApplicationDbContext dbContext;
         private readonly IValidator<CancelTicketCommand> validator;
 
-        public CancelTicketCommandHandler(ICurrentUserService currentUserService , IApplicationDbContext dbContext,IValidator<CancelTicketCommand> validator)
+        public CancelTicketCommandHandler(ICurrentUserService currentUserService, IApplicationDbContext dbContext, IValidator<CancelTicketCommand> validator)
         {
             this.currentUserService = currentUserService;
             this.dbContext = dbContext;
@@ -23,32 +23,32 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.CancelTicket
         }
         public async Task<CancelTicketResult> Handle(CancelTicketCommand request, CancellationToken cancellationToken)
         {
-             var validationResult =  await validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
             {
                 throw new ValidationException(validationResult.Errors);
             }
-           
+
             if (!currentUserService.IsAuthenticated || currentUserService.UserId is null)
             {
                 throw new UnauthorizedAccessException("Authentication is required.");
             }
 
-            var UserId = currentUserService.UserId.Value ;
+            var UserId = currentUserService.UserId.Value;
 
-            var customer = await dbContext.CustomerProfiles.FirstOrDefaultAsync(c=>c.UserId == UserId , cancellationToken);
+            var customer = await dbContext.CustomerProfiles.FirstOrDefaultAsync(c => c.UserId == UserId, cancellationToken);
 
             if (customer is null)
             {
-               throw new NotFoundException("Customer profile was not found.");
+                throw new NotFoundException("Customer profile was not found.");
             }
 
-            var ticket = await dbContext.Tickets.FirstOrDefaultAsync( t => t.Id == request.TicketId && t.CustomerId == customer.Id,cancellationToken);
+            var ticket = await dbContext.Tickets.FirstOrDefaultAsync(t => t.Id == request.TicketId && t.CustomerId == customer.Id, cancellationToken);
 
             if (ticket is null)
             {
-               throw new NotFoundException("Ticket was not found.");
+                throw new NotFoundException("Ticket was not found.");
             }
 
             if (ticket.Status != TicketStatus.New)
@@ -59,7 +59,7 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.CancelTicket
             ticket.Status = TicketStatus.Cancelled;
             ticket.CancellationReason = request.Request.CancellationReason;
             ticket.CancelledAt = DateTime.UtcNow;
-            
+
             var history = new TicketStatusHistory
             {
                 TicketId = ticket.Id,
@@ -67,9 +67,21 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.CancelTicket
                 NewStatus = TicketStatus.Cancelled,
                 Reason = request.Request.CancellationReason,
                 ChangedByUserId = UserId
-                
+
             };
             dbContext.TicketStatusHistories.Add(history);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            var activityLog = new ActivityLog
+            {
+                UserId = UserId,
+                EntityName = nameof(Ticket),
+                EntityId = ticket.Id,
+                Action = "Cancell Ticket"
+            };
+
+            await dbContext.ActivityLogs.AddAsync(activityLog,cancellationToken);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
