@@ -85,6 +85,16 @@ public class AssignTicketCommandHandler : IRequestHandler<AssignTicketCommand, A
 
         ticket.Status = TicketStatus.Assigned;
 
+        var activityLog = new ActivityLog
+        {
+            UserId = currentUserId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = "TicketAssigned"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog,cancellationToken);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new AssignTicketResult

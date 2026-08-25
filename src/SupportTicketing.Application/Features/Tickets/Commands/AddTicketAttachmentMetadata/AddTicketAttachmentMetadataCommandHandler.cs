@@ -111,6 +111,17 @@ namespace SupportTicketing.Application.Features.Tickets.Commands.AddTicketAttach
                 StorageKey = storageKey
             };
             await dbContext.TicketAttachments.AddAsync(attachment, cancellationToken);
+
+            var activityLog = new ActivityLog
+            {
+                UserId = currentUserId,
+                EntityName = nameof(Ticket),
+                EntityId = ticket.Id,
+                Action = $"Attachment metadata added: {attachment.FileName}"
+            };
+
+            await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
+
             await dbContext.SaveChangesAsync(cancellationToken);
             return new AddTicketAttachmentMetadataResult
             {

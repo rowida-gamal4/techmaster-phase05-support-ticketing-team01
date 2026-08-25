@@ -86,6 +86,16 @@ public class StartTicketCommandHandler : IRequestHandler<StartTicketCommand, Sta
 
         await dbContext.TicketStatusHistories.AddAsync(statusHistory, cancellationToken);
 
+        var activityLog = new ActivityLog
+        {
+            UserId = currentUserId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = "TicketStarted"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new StartTicketResult
@@ -94,5 +104,5 @@ public class StartTicketCommandHandler : IRequestHandler<StartTicketCommand, Sta
             Status = ticket.Status.ToString(),
             StartedAt = ticket.StartedAt.Value
         };
-    } 
+    }
 }

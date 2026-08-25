@@ -90,9 +90,19 @@ public class ReassignTicketCommandHandler : IRequestHandler<ReassignTicketComman
             AssignedAt = reassignedAt,
             IsActive = true
         };
-        await dbContext.TicketAssignments.AddAsync(newAssignment,cancellationToken);
+        await dbContext.TicketAssignments.AddAsync(newAssignment, cancellationToken);
 
         ticket.Status = TicketStatus.Assigned;
+
+        var activityLog = new ActivityLog
+        {
+            UserId = currentUserId,
+            EntityName = nameof(Ticket),
+            EntityId = ticket.Id,
+            Action = $"Ticket reassigned from Agent {oldAgentId} to Agent {agent.Id} in Team {team.Id}"
+        };
+
+        await dbContext.ActivityLogs.AddAsync(activityLog, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

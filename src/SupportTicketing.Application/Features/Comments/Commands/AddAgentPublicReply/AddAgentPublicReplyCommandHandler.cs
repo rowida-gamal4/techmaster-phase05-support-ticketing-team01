@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SupportTicketing.Application.Common.Interfaces;
 using SupportTicketing.Application.DTOs.Customer;
 using SupportTicketing.Application.Exceptions;
@@ -16,12 +17,14 @@ namespace SupportTicketing.Application.Features.Comments.Commands.AddAgentPublic
         private readonly ICurrentUserService currentUserService;
         private readonly IApplicationDbContext dbContext;
         private readonly IValidator<AddAgentPublicReplyCommand> validator;
+        private readonly ILogger<AddAgentPublicReplyCommandHandler> logger;
 
-        public AddAgentPublicReplyCommandHandler(ICurrentUserService currentUserService, IApplicationDbContext dbContext, IValidator<AddAgentPublicReplyCommand> validator)
+        public AddAgentPublicReplyCommandHandler(ICurrentUserService currentUserService, IApplicationDbContext dbContext, IValidator<AddAgentPublicReplyCommand> validator, ILogger<AddAgentPublicReplyCommandHandler> logger)
         {
             this.currentUserService = currentUserService;
             this.dbContext = dbContext;
             this.validator = validator;
+            this.logger = logger;
         }
 
         public async Task<AddAgentPublicReplyResult> Handle(
@@ -54,7 +57,7 @@ namespace SupportTicketing.Application.Features.Comments.Commands.AddAgentPublic
             {
                 throw new NotFoundException("Ticket was not found.");
             }
-            var isAssigned = await dbContext.TicketAssignments.AnyAsync( a => a.TicketId == ticket.Id && a.AgentId == agent.Id, cancellationToken);
+            var isAssigned = await dbContext.TicketAssignments.AnyAsync(a => a.TicketId == ticket.Id && a.AgentId == agent.Id, cancellationToken);
 
             if (!isAssigned)
             {
@@ -81,6 +84,8 @@ namespace SupportTicketing.Application.Features.Comments.Commands.AddAgentPublic
 
             dbContext.TicketComments.Add(comment);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            logger.LogInformation("Agent {UserId} added a public reply to ticket {TicketId}", userId, ticket.Id);
 
             return new AddAgentPublicReplyResult
             {
