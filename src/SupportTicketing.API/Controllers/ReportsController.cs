@@ -11,7 +11,7 @@ using SupportTicketing.Application.Features.Reports.Queries.GetTicketsByStatusRe
 using SupportTicketing.Application.Features.Sla.Queries.GetSlaRiskReport;
 using SupportTicketing.Domain.Enums;
 using SupportTicketing.Application.Features.Tickets.Queries.GetUnassignedTickets;
-
+using SupportTicketing.Application.Features.Reports.Queries.GetTicketLifecycleMetrics;
 
 namespace SupportTicketing.API.Controllers;
 
@@ -96,4 +96,12 @@ public class ReportsController : ControllerBase
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
     }
+    [HttpGet("lifecycle-metrics")]
+    [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
+    public async Task<IActionResult> GetLifecycleMetrics([FromQuery] GetTicketLifecycleMetricsQuery query,CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
 }
