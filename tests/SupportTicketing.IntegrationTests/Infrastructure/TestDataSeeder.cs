@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SupportTicketing.Domain.Entities;
+using SupportTicketing.Domain.Enums;
 using SupportTicketing.Infrastructure.Persistence;
 
 namespace SupportTicketing.IntegrationTests.Infrastructure;
@@ -8,7 +9,9 @@ namespace SupportTicketing.IntegrationTests.Infrastructure;
 public static class TestDataSeeder
 {
     public static int CustomerUserId { get; private set; }
+    public static int OtherCustomerUserId { get; private set; }
     public static int CategoryId { get; private set; }
+    public static int OtherCustomerTicketId { get; private set; }
 
     public static async Task SeedAsync(
         AppDbContext context,
@@ -17,7 +20,7 @@ public static class TestDataSeeder
         await context.Database.EnsureCreatedAsync();
 
         // ============================================
-        // Create / Get Customer User
+        // CUSTOMER A
         // ============================================
 
         var customerUser = await userManager.FindByEmailAsync(
@@ -54,7 +57,7 @@ public static class TestDataSeeder
         CustomerUserId = customerUser.Id;
 
         // ============================================
-        // Create / Get Customer Profile
+        // CUSTOMER A PROFILE
         // ============================================
 
         var customerProfile =
@@ -76,7 +79,67 @@ public static class TestDataSeeder
         }
 
         // ============================================
-        // Create / Get Category
+        // CUSTOMER B
+        // ============================================
+
+        var otherCustomerUser =
+            await userManager.FindByEmailAsync(
+                "integration.other.customer@test.com");
+
+        if (otherCustomerUser == null)
+        {
+            otherCustomerUser = new ApplicationUser
+            {
+                UserName = "integration.other.customer@test.com",
+                Email = "integration.other.customer@test.com",
+                FullName = "Other Customer",
+                IsActive = true,
+                EmailConfirmed = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var result = await userManager.CreateAsync(
+                otherCustomerUser,
+                "Password123!");
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(
+                    "; ",
+                    result.Errors.Select(e =>
+                        $"{e.Code}: {e.Description}"));
+
+                throw new Exception(
+                    $"Failed to create other customer: {errors}");
+            }
+        }
+
+        OtherCustomerUserId = otherCustomerUser.Id;
+
+        // ============================================
+        // CUSTOMER B PROFILE
+        // ============================================
+
+        var otherCustomerProfile =
+            await context.CustomerProfiles
+                .FirstOrDefaultAsync(
+                    c => c.UserId == otherCustomerUser.Id);
+
+        if (otherCustomerProfile == null)
+        {
+            otherCustomerProfile = new CustomerProfile
+            {
+                UserId = otherCustomerUser.Id,
+                FullName = "Other Integration Customer"
+            };
+
+            context.CustomerProfiles.Add(otherCustomerProfile);
+
+            await context.SaveChangesAsync();
+        }
+
+        // ============================================
+        // CATEGORY
         // ============================================
 
         var category =
@@ -99,5 +162,37 @@ public static class TestDataSeeder
         }
 
         CategoryId = category.Id;
+
+        // ============================================
+        // CUSTOMER B TICKET
+        // ============================================
+
+        var otherTicket =
+            await context.Tickets
+                .FirstOrDefaultAsync(
+                    t =>
+                        t.CustomerId == otherCustomerProfile.Id &&
+                        t.Title == "Other Customer Integration Ticket");
+
+        if (otherTicket == null)
+        {
+            otherTicket = new Ticket
+            {
+                CustomerId = otherCustomerProfile.Id,
+                CategoryId = category.Id,
+                Title = "Other Customer Integration Ticket",
+                Description = "Ticket owned by Customer B",
+                Status = TicketStatus.New,
+                Priority = TicketPriority.Low
+            };
+
+            otherTicket.SetCreatedAt();
+
+            context.Tickets.Add(otherTicket);
+
+            await context.SaveChangesAsync();
+        }
+
+        OtherCustomerTicketId = otherTicket.Id;
     }
 }
