@@ -2,7 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SupportTicketing.Application.DTOs.Customer;
+using SupportTicketing.Application.DTOs.Agent;
 using SupportTicketing.Application.Features.Agent.Queries.GetMyTeamQueue;
+using SupportTicketing.Application.Features.Agent.Queries.GetMyActiveTickets;
 using SupportTicketing.Application.Features.Comments.Commands.AddAgentPublicReply;
 using SupportTicketing.Domain.Enums;
 
@@ -35,6 +37,15 @@ namespace SupportTicketing.API.Controllers
             var result = await mediator.Send(new GetMyTeamQueueQuery(), cancellationToken);
             return Ok(result);
         }
+        [HttpGet("my-active")]
+        [Authorize(Roles = Roles.SupportAgent)]
+        public async Task<IActionResult> GetMyActiveTickets([FromQuery] string sortBy = "priority",CancellationToken cancellationToken = default)
+        {
+            var query = new GetMyActiveTicketsQuery(sortBy);
+            var result = await mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
     }
 }
 
