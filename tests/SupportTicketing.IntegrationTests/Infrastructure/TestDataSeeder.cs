@@ -17,6 +17,7 @@ public static class TestDataSeeder
     public static int AgentProfileId { get; private set; }
     public static int InactiveAgentUserId { get; private set; }
     public static int InactiveAgentProfileId { get; private set; }
+    public static int SupportTeamId { get; private set; }
 
     public static async Task SeedAsync(
         AppDbContext context,
@@ -268,6 +269,30 @@ public static class TestDataSeeder
         }
 
         AgentUserId = agentUser.Id;
+
+        // ============================================
+        // SUPPORT TEAM
+        // ============================================
+
+        var supportTeam =
+            await context.SupportTeams
+                .FirstOrDefaultAsync(t => t.Name == "Integration Test Team");
+
+        if (supportTeam == null)
+        {
+            supportTeam = new SupportTeam
+            {
+                Name = "Integration Test Team",
+                IsActive = true
+            };
+
+            context.SupportTeams.Add(supportTeam);
+
+            await context.SaveChangesAsync();
+        }
+
+        SupportTeamId = supportTeam.Id;
+
         // ============================================
         // AGENT PROFILE
         // ============================================
@@ -283,13 +308,19 @@ public static class TestDataSeeder
             {
                 UserId = agentUser.Id,
                 FullName = "Integration Test Agent",
-                IsActive = true
+                IsActive = true,
+                SupportTeamId = SupportTeamId
             };
 
             context.AgentProfiles.Add(agentProfile);
-
-            await context.SaveChangesAsync();
         }
+        else
+        {
+            agentProfile.IsActive = true;
+            agentProfile.SupportTeamId = SupportTeamId;
+        }
+
+        await context.SaveChangesAsync();
 
         AgentProfileId = agentProfile.Id;
 
