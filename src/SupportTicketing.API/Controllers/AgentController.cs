@@ -5,6 +5,7 @@ using SupportTicketing.Application.DTOs.Customer;
 using SupportTicketing.Application.DTOs.Agent;
 using SupportTicketing.Application.Features.Agent.Queries.GetMyTeamQueue;
 using SupportTicketing.Application.Features.Agent.Queries.GetMyActiveTickets;
+using SupportTicketing.Application.Features.Agent.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Comments.Commands.AddAgentPublicReply;
 using SupportTicketing.Domain.Enums;
 
@@ -45,7 +46,14 @@ namespace SupportTicketing.API.Controllers
             var result = await mediator.Send(query, cancellationToken);
             return Ok(result);
         }
-
+        [HttpGet("my-queue")]
+        [Authorize(Roles = Roles.SupportAgent)]
+        public async Task<IActionResult> GetMyQueue([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
+        {
+            var query = new GetMyAgentQueueQuery(pageNumber, pageSize);
+            var result = await mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
     }
 }
 

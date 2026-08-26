@@ -66,13 +66,24 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 var app = builder.Build();
 
 //Rowida
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
-    await IdentitySeeder.SeedRolesAsync(roleManager);
+//using (var scope = app.Services.CreateScope())
+//{
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+//    await IdentitySeeder.SeedRolesAsync(roleManager);
 
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await DataSeeder.SeedAsync(context);
+//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    await DataSeeder.SeedAsync(context);
+//}
+
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+        await IdentitySeeder.SeedRolesAsync(roleManager);
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await DataSeeder.SeedAsync(context);
+    }
 }
 
 
@@ -96,3 +107,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+}

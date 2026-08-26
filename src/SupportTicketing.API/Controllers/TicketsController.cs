@@ -7,7 +7,6 @@ using SupportTicketing.Application.Features.Tickets.Commands.AssignTicket;
 using SupportTicketing.Application.DTOs.TicketAssignment;
 using SupportTicketing.Application.DTOs.TicketTriage;
 using SupportTicketing.Application.Features.Tickets.Commands.ReassignTicket;
-using SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
 using SupportTicketing.Application.Features.Tickets.Commands.SetTicketPriority;
 using SupportTicketing.Application.Features.Tickets.Commands.StartTicket;
 using SupportTicketing.Application.Features.Tickets.Commands.ResolveTicket;
@@ -55,14 +54,6 @@ public class TicketsController : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
-    [HttpGet("my-queue")]
-    [Authorize(Roles = Roles.SupportAgent)]
-    public async Task<IActionResult> GetMyQueue([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
-    {
-        var query = new GetMyAgentQueueQuery(pageNumber, pageSize);
-        var result = await mediator.Send(query, cancellationToken);
-        return Ok(result);
-    }
     [HttpPatch("{ticketId}/priority")]
     [Authorize(Roles = Roles.Admin + "," + Roles.SupportLead)]
     public async Task<IActionResult> SetPriority(int ticketId, SetPriorityRequestDto request, CancellationToken cancellationToken)
@@ -90,7 +81,7 @@ public class TicketsController : ControllerBase
 
 
     [HttpPatch("{id}/status")]
-    [Authorize(Roles = Roles.Customer + "," + Roles.SupportLead)]
+    [Authorize(Roles = Roles.Customer + "," + Roles.SupportAgent + "," + Roles.SupportLead)]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateTicketStatusRequestDto request, CancellationToken cancellationToken)
     {
         var command = new UpdateTicketStatusCommand(id, request);
