@@ -12,6 +12,7 @@ public static class TestDataSeeder
     public static int OtherCustomerUserId { get; private set; }
     public static int CategoryId { get; private set; }
     public static int OtherCustomerTicketId { get; private set; }
+    public static int CustomerTicketId { get; private set; }
     public static int AgentUserId { get; private set; }
     public static int AgentProfileId { get; private set; }
 
@@ -82,6 +83,64 @@ public static class TestDataSeeder
         }
 
         // ============================================
+        // CATEGORY
+        // ============================================
+
+        var category =
+            await context.TicketCategories
+                .FirstOrDefaultAsync(c => c.Code == "TEST");
+
+        if (category == null)
+        {
+            category = new TicketCategory
+            {
+                Name = "Integration Test Category",
+                Code = "TEST",
+                Description = "Category used by integration tests",
+                IsActive = true
+            };
+
+            context.TicketCategories.Add(category);
+
+            await context.SaveChangesAsync();
+        }
+
+        CategoryId = category.Id;
+
+
+        // ============================================
+        // CUSTOMER A TICKET
+        // ============================================
+
+        var customerTicket =
+            await context.Tickets
+                .FirstOrDefaultAsync(
+                    t =>
+                        t.CustomerId == customerProfile.Id &&
+                        t.Title == "Customer Integration Ticket");
+
+        if (customerTicket == null)
+        {
+            customerTicket = new Ticket
+            {
+                CustomerId = customerProfile.Id,
+                CategoryId = category.Id,
+                Title = "Customer Integration Ticket",
+                Description = "Ticket owned by Customer A",
+                Status = TicketStatus.New,
+                Priority = TicketPriority.Low
+            };
+
+            customerTicket.SetCreatedAt();
+
+            context.Tickets.Add(customerTicket);
+
+            await context.SaveChangesAsync();
+        }
+
+        CustomerTicketId = customerTicket.Id;
+
+        // ============================================
         // CUSTOMER B
         // ============================================
 
@@ -140,31 +199,6 @@ public static class TestDataSeeder
 
             await context.SaveChangesAsync();
         }
-
-        // ============================================
-        // CATEGORY
-        // ============================================
-
-        var category =
-            await context.TicketCategories
-                .FirstOrDefaultAsync(c => c.Code == "TEST");
-
-        if (category == null)
-        {
-            category = new TicketCategory
-            {
-                Name = "Integration Test Category",
-                Code = "TEST",
-                Description = "Category used by integration tests",
-                IsActive = true
-            };
-
-            context.TicketCategories.Add(category);
-
-            await context.SaveChangesAsync();
-        }
-
-        CategoryId = category.Id;
 
         // ============================================
         // CUSTOMER B TICKET
