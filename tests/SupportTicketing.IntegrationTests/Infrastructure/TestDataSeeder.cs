@@ -15,7 +15,8 @@ public static class TestDataSeeder
     public static int CustomerTicketId { get; private set; }
     public static int AgentUserId { get; private set; }
     public static int AgentProfileId { get; private set; }
-
+    public static int InactiveAgentUserId { get; private set; }
+    public static int InactiveAgentProfileId { get; private set; }
 
     public static async Task SeedAsync(
         AppDbContext context,
@@ -291,5 +292,68 @@ public static class TestDataSeeder
         }
 
         AgentProfileId = agentProfile.Id;
+
+        // ============================================
+        // INACTIVE AGENT
+        // ============================================
+
+        var inactiveAgentUser =
+            await userManager.FindByEmailAsync(
+                "integration.inactive.agent@test.com");
+
+        if (inactiveAgentUser == null)
+        {
+            inactiveAgentUser = new ApplicationUser
+            {
+                UserName = "integration.inactive.agent@test.com",
+                Email = "integration.inactive.agent@test.com",
+                FullName = "Inactive Integration Agent",
+                IsActive = true,
+                EmailConfirmed = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var result = await userManager.CreateAsync(
+                inactiveAgentUser,
+                "TestPassword123!");
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(
+                    "; ",
+                    result.Errors.Select(e =>
+                        $"{e.Code}: {e.Description}"));
+
+                throw new Exception(
+                    $"Could not create inactive integration test agent: {errors}");
+            }
+        }
+
+        InactiveAgentUserId = inactiveAgentUser.Id;
+
+        // ============================================
+        // INACTIVE AGENT PROFILE
+        // ============================================
+
+        var inactiveAgentProfile =
+            await context.AgentProfiles
+                .FirstOrDefaultAsync(
+                    a => a.UserId == inactiveAgentUser.Id);
+
+        if (inactiveAgentProfile == null)
+        {
+            inactiveAgentProfile = new AgentProfile
+            {
+                UserId = inactiveAgentUser.Id,
+                FullName = "Inactive Integration Agent",
+                IsActive = false
+            };
+
+            context.AgentProfiles.Add(inactiveAgentProfile);
+
+            await context.SaveChangesAsync();
+        }
+
+        InactiveAgentProfileId = inactiveAgentProfile.Id;
     }
 }
