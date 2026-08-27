@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using SupportTicketing.API.Extensions;
 using SupportTicketing.API.Middleware;
 using SupportTicketing.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,23 +66,14 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
-//Rowida
-//using (var scope = app.Services.CreateScope())
-//{
-//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
-//    await IdentitySeeder.SeedRolesAsync(roleManager);
-
-//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//    await DataSeeder.SeedAsync(context);
-//}
-
 if (!app.Environment.IsEnvironment("Testing"))
 {
     using (var scope = app.Services.CreateScope())
     {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await context.Database.MigrateAsync();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
         await IdentitySeeder.SeedRolesAsync(roleManager);
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await DataSeeder.SeedAsync(context);
     }
 }
@@ -90,8 +82,8 @@ if (!app.Environment.IsEnvironment("Testing"))
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 app.UseSwaggerDocumentation();
