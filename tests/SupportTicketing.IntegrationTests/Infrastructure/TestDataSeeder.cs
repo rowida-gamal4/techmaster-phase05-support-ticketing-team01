@@ -12,6 +12,9 @@ public static class TestDataSeeder
     public static int OtherCustomerUserId { get; private set; }
     public static int CategoryId { get; private set; }
     public static int OtherCustomerTicketId { get; private set; }
+    public static int AgentUserId { get; private set; }
+    public static int AgentProfileId { get; private set; }
+
 
     public static async Task SeedAsync(
         AppDbContext context,
@@ -194,5 +197,65 @@ public static class TestDataSeeder
         }
 
         OtherCustomerTicketId = otherTicket.Id;
+
+        // ============================================
+        // AGENT
+        // ============================================
+
+        var agentUser = await userManager.FindByEmailAsync("integration.agent@test.com");
+
+        if (agentUser == null)
+        {
+            agentUser = new ApplicationUser
+            {
+                UserName = "integration.agent@test.com",
+                Email = "integration.agent@test.com",
+                FullName = "Integration Test Agent",
+                IsActive = true,
+                EmailConfirmed = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var result = await userManager.CreateAsync(
+                agentUser,
+                "TestPassword123!");
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(
+                    "; ",
+                    result.Errors.Select(e =>
+                        $"{e.Code}: {e.Description}"));
+
+                throw new Exception(
+                    $"Could not create integration test agent: {errors}");
+            }
+        }
+
+        AgentUserId = agentUser.Id;
+        // ============================================
+        // AGENT PROFILE
+        // ============================================
+
+        var agentProfile =
+            await context.AgentProfiles
+                .FirstOrDefaultAsync(
+                    a => a.UserId == agentUser.Id);
+
+        if (agentProfile == null)
+        {
+            agentProfile = new AgentProfile
+            {
+                UserId = agentUser.Id,
+                FullName = "Integration Test Agent",
+                IsActive = true
+            };
+
+            context.AgentProfiles.Add(agentProfile);
+
+            await context.SaveChangesAsync();
+        }
+
+        AgentProfileId = agentProfile.Id;
     }
 }
