@@ -25,6 +25,10 @@ TestResults/
 
 # Local development configuration
 appsettings.Development.json
+appsettings.json
+
+# Production configuration
+appsettings.Production.json
 
 # Environment / secrets
 .env
