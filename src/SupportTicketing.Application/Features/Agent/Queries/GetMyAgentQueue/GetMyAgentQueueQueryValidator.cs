@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
+namespace SupportTicketing.Application.Features.Agent.Queries.GetMyAgentQueue;
 
 public class GetMyAgentQueueQueryValidator : AbstractValidator<GetMyAgentQueueQuery>
 {

@@ -6,7 +6,7 @@ using SupportTicketing.Application.DTOs.TicketAssignment;
 using SupportTicketing.Application.Exceptions;
 using SupportTicketing.Domain.Enums;
 
-namespace SupportTicketing.Application.Features.Tickets.Queries.GetMyAgentQueue;
+namespace SupportTicketing.Application.Features.Agent.Queries.GetMyAgentQueue;
 
 public class GetMyAgentQueueQueryHandler : IRequestHandler<GetMyAgentQueueQuery, GetMyAgentQueueResult>
 {
