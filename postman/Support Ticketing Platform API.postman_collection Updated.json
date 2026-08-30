@@ -1,0 +1,2279 @@
+{
+  "info": {
+    "_postman_id": "d40ef851-5ab3-4b15-9f3a-ac5722caa399",
+    "name": "Support Ticketing Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52799279",
+    "_collection_link": "https://go.postman.co/collection/52799279-d40ef851-5ab3-4b15-9f3a-ac5722caa399?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"email\": \"admin@test.com\",\r\n    \"password\": \"Admin@123\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Customer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"email\": \"sama@test.com\",\r\n    \"password\": \"Sama@123\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login SupportAgent",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"email\": \"Zoz@test.com\",\r\n    \"password\": \"Zozo@123\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login SupportLead",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"email\": \"row@test.com\",\r\n    \"password\": \"Rody@123\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"fullName\": \"lama\",\r\n    \"email\": \"lama@test.com\",\r\n    \"password\": \"Lama@123\",\r\n    \"confirmPassword\": \"Lama@123\",\r\n    \"role\": \"SupportLead\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/register",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{supportAgent}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/me",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "WorkFlows",
+      "item": [
+        {
+          "name": "Complete Ticket Lifecycle",
+          "item": [
+            {
+              "name": "Login Customer",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"request\": {\r\n    \"email\": \"sama@test.com\",\r\n    \"password\": \"Sama@123\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"request\": {\r\n    \"title\": \"latency problem\",\r\n    \"description\": \"many issues\",\r\n    \"categoryId\": 1\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Customer Uploads Attachment",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fileName\": \"\",\r\n  \"fileSize\": 20,\r\n  \"contentType\": \"PDF\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/3/attachments",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "3",
+                    "attachments"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Agent",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"request\": {\r\n    \"email\": \"Zoz@test.com\",\r\n    \"password\": \"Zozo@123\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Auth/login",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Assign Ticket To Agent",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{admin}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agentId\": 3,\r\n  \"teamId\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/10/assign",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "10",
+                    "assign"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Agent Starts Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/9/start",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "9",
+                    "start"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add Internal Note",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"content\": \"error bec lab is old\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/3/internal-notes",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "3",
+                    "internal-notes"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Agent Replies To Customer",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"content\": \"Many error will work on it\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Agent/add-replay/ticket/4",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Agent",
+                    "add-replay",
+                    "ticket",
+                    "4"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Resolve Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"resolutionNotes\": \"solve errors\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/4/resolve",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "4",
+                    "resolve"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Customer Ticket Cancellation Flow",
+          "item": [
+            {
+              "name": "Create Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"request\": {\r\n    \"title\": \"cancelation testtt\",\r\n    \"description\": \"snxmng\",\r\n    \"categoryId\": 2\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Customer View Active Queue",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/me/tickets",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "me",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Customer Cancels Open Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"cancellationReason\": \"dont need more\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/cancel/my-tickets/7",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "cancel",
+                    "my-tickets",
+                    "7"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Modules",
+      "item": [
+        {
+          "name": "Agent Module",
+          "item": [
+            {
+              "name": "View My Queue",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Agent/my-queue?pageNumber=1&pageSize=10",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Agent",
+                    "my-queue"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "My Active",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Agent/my-active?sortBy=priority",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Agent",
+                    "my-active"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "priority"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "My Team Queue",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportLead}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Agent/my-team/queue",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Agent",
+                    "my-team",
+                    "queue"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add Replay To Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"content\": \"testtt\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Agent/add-replay/ticket/3",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Agent",
+                    "add-replay",
+                    "ticket",
+                    "3"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Customers Module",
+          "item": [
+            {
+              "name": "View Available Categories",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/available-categories",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "available-categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View My Tickets",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/me/tickets",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "me",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View Ticket By Id",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/3",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "3"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View Ticket Conversation",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/3/conversation?pageNumber=1&pageSize=10",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "3",
+                    "conversation"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View Ticket Status History",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/4/status-history",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "4",
+                    "status-history"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View My History",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/my-history?pageNumber=1&pageSize=10",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "my-history"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add Comment",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"content\": \"testt\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/add-comment/ticket/3",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "add-comment",
+                    "ticket",
+                    "3"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cancel Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"cancellationReason\": \"dont need more\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/Customers/cancel/my-tickets/6",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "Customers",
+                    "cancel",
+                    "my-tickets",
+                    "6"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Tickets Module",
+          "item": [
+            {
+              "name": "Create Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"request\": {\r\n    \"title\": \"tstttttt\",\r\n    \"description\": \"Problems\",\r\n    \"categoryId\": 1\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Assign Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{admin}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agentId\": 3,\r\n  \"teamId\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/4/assign",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "4",
+                    "assign"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reassign Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportLead}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agentId\": 2,\r\n  \"teamId\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/3/reassign",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "3",
+                    "reassign"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Priority",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{admin}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"priority\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/4/priority",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "4",
+                    "priority"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Start Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/5/start",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "5",
+                    "start"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Resolve Ticket",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"resolutionNotes\": \"solve errors\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/5/resolve",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "5",
+                    "resolve"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Status",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customer}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"status\": \"Closed\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/5/status",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "5",
+                    "status"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add Internal Notes",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"content\": \"servrey not rapid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/1/internal-notes",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "1",
+                    "internal-notes"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Attachments",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fileName\": \"newwww\",\r\n  \"fileSize\": 10,\r\n  \"contentType\": \"application/pdf\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/4/attachments",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "4",
+                    "attachments"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "View Attachments",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{supportAgent}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://supportticketingapi.runasp.net/api/tickets/attachments?TicketId=4",
+                  "protocol": "http",
+                  "host": [
+                    "supportticketingapi",
+                    "runasp",
+                    "net"
+                  ],
+                  "path": [
+                    "api",
+                    "tickets",
+                    "attachments"
+                  ],
+                  "query": [
+                    {
+                      "key": "TicketId",
+                      "value": "4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Aget Workflow",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{supportLead}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/agent-workload",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "agent-workload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tickets Status Priority",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/tickets/status-priority",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "tickets",
+                "status-priority"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Audit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/audit",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "audit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ticket Category Distribution",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/ticket-category-distribution",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "ticket-category-distribution"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "High Priority Open Tickets",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/high-priority-open-tickets",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "high-priority-open-tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SlaRisk",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{supportLead}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/sla-risk",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "sla-risk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unassigned Tickets",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/unassigned?pageNumber=1&pageSize=10&sortBy=priority",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "unassigned"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "priority"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lifecycle metrics",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/lifecycle-metrics",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "lifecycle-metrics"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Top Customers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/top-customers?pageNumber=1&pageSize=10",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "top-customers"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resolution Time",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Reports/resolution-time",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Reports",
+                "resolution-time"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "Cancel Ticket Not New",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"cancellationReason\": \"dont need more\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Customers/cancel/my-tickets/3",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Customers",
+                "cancel",
+                "my-tickets",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Replay To Ticket Not Assigned To",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{supportAgent}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"content\": \"testtt\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Agent/add-replay/ticket/3",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Agent",
+                "add-replay",
+                "ticket",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me Unauthorized",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Auth/me",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Ticket Forbidden",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{supportAgent}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"request\": {\r\n    \"title\": \"tstt delll\",\r\n    \"description\": \"Problems\",\r\n    \"categoryId\": 2\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/tickets",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment To Closed Ticket",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"content\": \"tesbvghvh\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Customers/add-comment/ticket/6",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Customers",
+                "add-comment",
+                "ticket",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Ticket Error",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"cancellationReason\": \"dont need more\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Customers/cancel/my-tickets/3",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Customers",
+                "cancel",
+                "my-tickets",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Attachments Type Error",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fileName\": \"mksnc\",\r\n  \"fileSize\": 0,\r\n  \"contentType\": \"max\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/tickets/1/attachments",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "1",
+                "attachments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Customer Ticket Id Not Found",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://supportticketingapi.runasp.net/api/Customers/12",
+              "protocol": "http",
+              "host": [
+                "supportticketingapi",
+                "runasp",
+                "net"
+              ],
+              "path": [
+                "api",
+                "Customers",
+                "12"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "admin",
+      "value": ""
+    },
+    {
+      "key": "customer",
+      "value": ""
+    },
+    {
+      "key": "supportAgent",
+      "value": ""
+    },
+    {
+      "key": "supportLead",
+      "value": ""
+    }
+  ]
+}
